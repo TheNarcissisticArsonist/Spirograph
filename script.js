@@ -1,6 +1,8 @@
 //Constants
 var outerGearRadius = 225; //The radius of the outer gear.
-var innerGearRadius = 25; //The radius of the moving gear.
+var epsilon = 0.001;
+var resolutionFactor = 10;
+var interationsPerDrawCycle = 100;
 
 //Global Variables
 var htmlElements = {};
@@ -16,11 +18,62 @@ function setup() {
 
 	context = htmlElements.canvas.getContext("2d");
 	resetCanvas();
+
+	htmlElements.drawButton.addEventListener("click", draw);
 }
 function resetCanvas() {
 	context.setTransform(1, 0, 0, 1, 0, 0);
 	context.transform(1, 0, 0, 1, htmlElements.canvas.width/2, htmlElements.canvas.height/2);
 	context.transform(1, 0, 0, -1, 0, 0);
+	context.beginPath();
+}
+function draw() {
+	resetCanvas();
+
+	innerGearRadius = htmlElements.innerRadius.value;
+	outerGearTeeth = htmlElements.outerTeeth.value;
+	innerGearTeeth = htmlElements.innerTeeth.value;
+	penHoleRadius = htmlElements.penHoleRadius.value;
+
+	innerRadPerTooth = (2*Math.PI)/innerGearTeeth;
+	outerRadPerTooth = (2*Math.PI)/outerGearTeeth;
+
+
+	initialPenPosition = [outerGearRadius-innerGearRadius+penHoleRadius, 0];
+	currentPenPosition = initialPenPosition.slice(0);
+	currentGearPosition = [outerGearRadius-innerGearRadius, 0];
+	
+	context.moveTo(initialPenPosition[0], initialPenPosition[1]);
+	context.beginPath();
+
+	iteration = 0;
+	drawLoop(0, 0);
+}
+function drawLoop(currentGearPositionRad, currentGearRad) {
+	currentGearPositionRad += outerRadPerTooth/10;
+	currentGearRad += innerRadPerTooth/10;
+	var currentGearPosition = [(outerGearRadius-innerGearRadius)*Math.cos(currentGearPositionRad), (outerGearRadius-innerGearRadius)*Math.sin(currentGearPositionRad)];
+	var currentPenPosition = [penHoleRadius*Math.cos(currentGearRad), penHoleRadius*Math.sin(currentGearRad)];
+	currentPenPosition[0] += currentGearPosition[0];
+	currentPenPosition[1] += currentGearPosition[1];
+
+	context.lineTo(currentPenPosition[0], currentPenPosition[1]);
+	context.stroke();
+
+	++iteration;
+
+	currentGearRad %= 2*Math.PI;
+	currentGearPositionRad %= 2*Math.PI;
+
+	if((Math.abs(currentPenPosition[0] - initialPenPosition[0]) > epsilon) || (Math.abs(currentPenPosition[1] - initialPenPosition[1]) > epsilon)) {
+		if(iteration > interationsPerDrawCycle) {
+			requestAnimationFrame(function() { drawLoop(currentGearPositionRad, currentGearRad); });
+			iteration = 0;
+		}
+		else {
+			drawLoop(currentGearPositionRad, currentGearRad);
+		}
+	}
 }
 
 setup();
