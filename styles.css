@@ -1,0 +1,16 @@
+div {
+	display: inline-block;
+}
+textarea.inlineInput {
+	height: 16px;
+	vertical-align: middle;
+	resize: none;
+	width: 40px;
+}
+div#drawButton {
+	background-color: red;
+	padding: 0px 16px;
+}
+canvas#drawingArea {
+	border: 1px solid black;
+}
