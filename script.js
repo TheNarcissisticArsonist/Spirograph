@@ -9,6 +9,8 @@ var context;
 function setup() {
 	htmlElements.outerTeeth = document.getElementById("outerTeeth");
 	htmlElements.innerTeeth = document.getElementById("innerTeeth");
+	htmlElements.innerRadius = document.getElementById("innerRadius");
+	htmlElements.penHoleRadius = document.getElementById("penHoleRadius");
 	htmlElements.drawButton = document.getElementById("drawButton");
 	htmlElements.canvas = document.getElementById("drawingArea");
 
