@@ -1,6 +1,6 @@
 //Constants
 var outerGearRadius = 225; //The radius of the outer gear.
-var epsilon = 0.001;
+var epsilon = 0.00001;
 var resolutionFactor = 10;
 var interationsPerDrawCycle = 100;
 
@@ -39,7 +39,8 @@ function draw() {
 	outerRadPerTooth = (2*Math.PI)/outerGearTeeth;
 
 
-	initialPenPosition = [outerGearRadius-innerGearRadius+penHoleRadius, 0];
+	initialPenPosition = [outerGearRadius-Number(innerGearRadius)+Number(penHoleRadius), 0];
+	console.log(initialPenPosition);
 	currentPenPosition = initialPenPosition.slice(0);
 	currentGearPosition = [outerGearRadius-innerGearRadius, 0];
 	
@@ -65,7 +66,12 @@ function drawLoop(currentGearPositionRad, currentGearRad) {
 	currentGearRad %= 2*Math.PI;
 	currentGearPositionRad %= 2*Math.PI;
 
-	if((Math.abs(currentPenPosition[0] - initialPenPosition[0]) > epsilon) || (Math.abs(currentPenPosition[1] - initialPenPosition[1]) > epsilon)) {
+	var diff = Math.sqrt(Math.pow(currentPenPosition[0] - initialPenPosition[0], 2) + Math.pow(currentPenPosition[1] - initialPenPosition[1], 2));
+
+	console.log(currentPenPosition);
+
+	if(diff > epsilon) {
+		//console.log(diff);
 		if(iteration > interationsPerDrawCycle) {
 			requestAnimationFrame(function() { drawLoop(currentGearPositionRad, currentGearRad); });
 			iteration = 0;
