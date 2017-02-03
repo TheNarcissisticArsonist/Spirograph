@@ -15,11 +15,13 @@ function setup() {
 	htmlElements.penHoleRadius = document.getElementById("penHoleRadius");
 	htmlElements.drawButton = document.getElementById("drawButton");
 	htmlElements.canvas = document.getElementById("drawingArea");
+	htmlElements.clearButton = document.getElementById("clearButton");
 
 	context = htmlElements.canvas.getContext("2d");
 	resetCanvas();
 
 	htmlElements.drawButton.addEventListener("click", draw);
+	htmlElements.clearButton.addEventListener("click", resetCanvas);
 }
 function resetCanvas() {
 	context.setTransform(1, 0, 0, 1, 0, 0);
@@ -29,8 +31,6 @@ function resetCanvas() {
 	context.beginPath();
 }
 function draw() {
-	resetCanvas();
-
 	innerGearRadius = htmlElements.innerRadius.value;
 	outerGearTeeth = htmlElements.outerTeeth.value;
 	innerGearTeeth = htmlElements.innerTeeth.value;
@@ -74,7 +74,7 @@ function drawLoop(currentGearPositionRad, currentGearRad) {
 	if(diff > epsilon) {
 		//console.log(diff);
 		if(iteration > interationsPerDrawCycle) {
-			requestAnimationFrame(function() { drawLoop(currentGearPositionRad, currentGearRad); });
+			window.setTimeout(function() { drawLoop(currentGearPositionRad, currentGearRad); }, 0);
 			iteration = 0;
 		}
 		else {

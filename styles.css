@@ -11,6 +11,10 @@ div#drawButton {
 	background-color: red;
 	padding: 0px 16px;
 }
+div#clearButton {
+	background-color: red;
+	padding: 0px 16px;
+}
 canvas#drawingArea {
 	border: 1px solid black;
 }
