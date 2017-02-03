@@ -7,6 +7,7 @@ var interationsPerDrawCycle = 100;
 //Global Variables
 var htmlElements = {};
 var context;
+var loop = 0;
 
 function setup() {
 	htmlElements.outerTeeth = document.getElementById("outerTeeth");
@@ -31,6 +32,8 @@ function resetCanvas() {
 	context.beginPath();
 }
 function draw() {
+	++loop;
+
 	innerGearRadius = htmlElements.innerRadius.value;
 	outerGearTeeth = htmlElements.outerTeeth.value;
 	innerGearTeeth = htmlElements.innerTeeth.value;
@@ -78,6 +81,15 @@ function drawLoop(currentGearPositionRad, currentGearRad) {
 		}
 		else {
 			drawLoop(currentGearPositionRad, currentGearRad);
+		}
+	}
+	else {
+		if(loop < 2) {
+			++loop;
+			draw();
+		}
+		else {
+			loop = 0;
 		}
 	}
 }
