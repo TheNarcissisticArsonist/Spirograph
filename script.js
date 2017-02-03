@@ -17,6 +17,7 @@ function setup() {
 	htmlElements.drawButton = document.getElementById("drawButton");
 	htmlElements.canvas = document.getElementById("drawingArea");
 	htmlElements.clearButton = document.getElementById("clearButton");
+	htmlElements.color = document.getElementById("color");
 
 	context = htmlElements.canvas.getContext("2d");
 	resetCanvas();
@@ -33,6 +34,15 @@ function resetCanvas() {
 }
 function draw() {
 	++loop;
+
+	context.strokeStyle = "#000000";
+
+	rawColor = htmlElements.color.value;
+	if(rawColor.length == 6) {
+		if(!isNaN(parseInt(rawColor, 16))) {
+			context.strokeStyle = "#"+rawColor;
+		}
+	}
 
 	innerGearRadius = htmlElements.innerRadius.value;
 	outerGearTeeth = htmlElements.outerTeeth.value;
@@ -71,7 +81,7 @@ function drawLoop(currentGearPositionRad, currentGearRad) {
 
 	var diff = Math.sqrt(Math.pow(currentPenPosition[0] - initialPenPosition[0], 2) + Math.pow(currentPenPosition[1] - initialPenPosition[1], 2));
 
-	console.log(currentPenPosition);
+	//console.log(currentPenPosition);
 
 	if(diff > epsilon) {
 		//console.log(diff);
@@ -90,6 +100,7 @@ function drawLoop(currentGearPositionRad, currentGearRad) {
 		}
 		else {
 			loop = 0;
+			console.log("Done!");
 		}
 	}
 }

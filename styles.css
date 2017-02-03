@@ -7,6 +7,9 @@ textarea.inlineInput {
 	resize: none;
 	width: 40px;
 }
+textarea#color {
+	width: 80px;
+}
 div#drawButton {
 	background-color: red;
 	padding: 0px 16px;
