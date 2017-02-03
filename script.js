@@ -105,10 +105,12 @@ function drawLoop(currentGearPositionRad, currentGearRad) {
 	else {
 		if(loop < 2) {
 			++loop;
+			context.stroke();
 			draw();
 		}
 		else {
 			loop = 0;
+			context.stroke();
 			console.log("Done!");
 		}
 	}
