@@ -60,7 +60,6 @@ function drawLoop(currentGearPositionRad, currentGearRad) {
 	currentPenPosition[1] += currentGearPosition[1];
 
 	context.lineTo(currentPenPosition[0], currentPenPosition[1]);
-	context.stroke();
 
 	++iteration;
 
@@ -74,7 +73,7 @@ function drawLoop(currentGearPositionRad, currentGearRad) {
 	if(diff > epsilon) {
 		//console.log(diff);
 		if(iteration > interationsPerDrawCycle) {
-			window.setTimeout(function() { drawLoop(currentGearPositionRad, currentGearRad); }, 0);
+			window.setTimeout(function() { context.stroke(); drawLoop(currentGearPositionRad, currentGearRad); }, 0);
 			iteration = 0;
 		}
 		else {
