@@ -23,6 +23,7 @@ function setup() {
 }
 function resetCanvas() {
 	context.setTransform(1, 0, 0, 1, 0, 0);
+	context.clearRect(0, 0, htmlElements.canvas.width, htmlElements.canvas.height);
 	context.transform(1, 0, 0, 1, htmlElements.canvas.width/2, htmlElements.canvas.height/2);
 	context.transform(1, 0, 0, -1, 0, 0);
 	context.beginPath();
