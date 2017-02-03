@@ -8,6 +8,7 @@ var interationsPerDrawCycle = 100;
 var htmlElements = {};
 var context;
 var loop = 0;
+var stop = false;
 
 function setup() {
 	htmlElements.outerTeeth = document.getElementById("outerTeeth");
@@ -26,6 +27,7 @@ function setup() {
 	htmlElements.clearButton.addEventListener("click", resetCanvas);
 }
 function resetCanvas() {
+	stop = true;
 	context.setTransform(1, 0, 0, 1, 0, 0);
 	context.clearRect(0, 0, htmlElements.canvas.width, htmlElements.canvas.height);
 	context.transform(1, 0, 0, 1, htmlElements.canvas.width/2, htmlElements.canvas.height/2);
@@ -33,6 +35,7 @@ function resetCanvas() {
 	context.beginPath();
 }
 function draw() {
+	stop = false;
 	++loop;
 
 	context.strokeStyle = "#000000";
@@ -82,6 +85,12 @@ function drawLoop(currentGearPositionRad, currentGearRad) {
 	var diff = Math.sqrt(Math.pow(currentPenPosition[0] - initialPenPosition[0], 2) + Math.pow(currentPenPosition[1] - initialPenPosition[1], 2));
 
 	//console.log(currentPenPosition);
+
+	if(stop) {
+		context.stroke();
+		loop = 0;
+		return;
+	}
 
 	if(diff > epsilon) {
 		//console.log(diff);
